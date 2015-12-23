@@ -1,0 +1,42 @@
+List for creating models
+Git commit
+Create model
+Rake db:migrate
+Create factory
+Write validations
+Test validations in spec
+Create associations
+Test associations
+Create seed data
+Git commit
+Permit params in controller
+
+
+
+
+rails g model employee name:string rate:decimal
+
+rails g model client first_name:string last_name:string redress:string company:string email:string phone:string street:string city:string state:string zip:string
+
+rails g model project name:string client:references amount:decimal type:integer street:string
+
+rails g model transaction name:string type:integer project:references amount:decimal
+
+rails g model task name:string rank:integer complete:boolean date:date time:decimal employee:references qa:boolean qa_date:date paid:boolean paid_date:date amount:decimal transaction:references project:references step:integer before:string after:string count:string available:boolean
+
+
+rails g model invoice name:string date:date amount:decimal paid:boolean project:references 
+
+rails g model payment project:references invoice:references transaction:references
+rails g model payroll tasks:string transaction:references
+rails g model expense transaction:references 
+
+
+
+
+
+
+rails g model proposal
+
+
+time:integer

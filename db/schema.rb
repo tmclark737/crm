@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151223205549) do
+ActiveRecord::Schema.define(version: 20151223210308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,47 @@ ActiveRecord::Schema.define(version: 20151223205549) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "expenses", force: :cascade do |t|
+    t.integer  "transaction_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "expenses", ["transaction_id"], name: "index_expenses_on_transaction_id", using: :btree
+
+  create_table "invoices", force: :cascade do |t|
+    t.string   "name"
+    t.date     "date"
+    t.decimal  "amount"
+    t.boolean  "paid"
+    t.integer  "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "invoices", ["project_id"], name: "index_invoices_on_project_id", using: :btree
+
+  create_table "payments", force: :cascade do |t|
+    t.integer  "project_id"
+    t.integer  "invoice_id"
+    t.integer  "transaction_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "payments", ["invoice_id"], name: "index_payments_on_invoice_id", using: :btree
+  add_index "payments", ["project_id"], name: "index_payments_on_project_id", using: :btree
+  add_index "payments", ["transaction_id"], name: "index_payments_on_transaction_id", using: :btree
+
+  create_table "payrolls", force: :cascade do |t|
+    t.string   "tasks"
+    t.integer  "transaction_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "payrolls", ["transaction_id"], name: "index_payrolls_on_transaction_id", using: :btree
 
   create_table "projects", force: :cascade do |t|
     t.string   "name"
@@ -88,6 +129,12 @@ ActiveRecord::Schema.define(version: 20151223205549) do
 
   add_index "transactions", ["project_id"], name: "index_transactions_on_project_id", using: :btree
 
+  add_foreign_key "expenses", "transactions"
+  add_foreign_key "invoices", "projects"
+  add_foreign_key "payments", "invoices"
+  add_foreign_key "payments", "projects"
+  add_foreign_key "payments", "transactions"
+  add_foreign_key "payrolls", "transactions"
   add_foreign_key "projects", "clients"
   add_foreign_key "tasks", "employees"
   add_foreign_key "tasks", "projects"

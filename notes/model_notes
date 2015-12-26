@@ -40,3 +40,13 @@ rails g model proposal
 
 
 time:integer
+
+
+
+
+
+
+rails g migration AddDependentTasksTable
+
+
+

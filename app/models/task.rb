@@ -10,6 +10,8 @@ class Task < ActiveRecord::Base
 
 
 
-
+  def incomplete_children
+  	self.child_tasks.select{|child_task| !child_task.complete? }
+  end
 
 end

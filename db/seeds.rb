@@ -5,3 +5,8 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+
+CSV.foreach(File.join(Rails.root, 'db', 'seeds_csv', 'task_seeds.csv'), :headers => true) do |row|
+ Task.create!(row.to_hash)
+end
